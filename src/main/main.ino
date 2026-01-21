@@ -3,6 +3,16 @@
 #include <Preferences.h>
 #include "webpage.h"
 #include "EasyPCF8574.h"
+#include "DS3231.h"
+
+
+DS3231 myRTC;
+bool century = false;
+bool h12Flag;
+bool pmFlag;
+byte alarmDay, alarmHour, alarmMinute, alarmSecond, alarmBits;
+bool alarmDy, alarmH12Flag, alarmPmFlag;
+
 
 // PCF8574 object
 EasyPCF8574 pcf(0x27, 0);  // address, optional
@@ -70,6 +80,12 @@ void handleSet() {
     }
   }
   server.send(200, "text/plain", "OK");
+  Serial.print(myRTC.getHour(h12Flag, pmFlag), DEC);
+	Serial.print(" ");
+	Serial.print(myRTC.getMinute(), DEC);
+	Serial.print(" ");
+	Serial.print(myRTC.getSecond(), DEC);
+  Serial.println("");
 }
 
 // /state handler
