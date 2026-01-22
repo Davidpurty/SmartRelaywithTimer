@@ -101,6 +101,19 @@ void handleState() {
 
 void setup() {
   Serial.begin(115200);
+  //start the static ip configuration
+
+IPAddress local_IP(192, 168, 0, 10);   // same subnet as router
+IPAddress gateway(192, 168, 0, 1);     // router IP
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);
+IPAddress secondaryDNS(103, 6, 156, 199);
+
+WiFi.disconnect(true);
+delay(1000);
+WiFi.mode(WIFI_STA);
+
+WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS);
 
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
